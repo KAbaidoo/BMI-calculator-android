@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">BMIcalculator</string>
+    <string name="health_app">health app</string>
+    <string name="calculate_your_bmi">calculate your bmi</string>
+    <string name="your_results">your results</string>
+    <string name="results_figure">0</string>
+    <string name="youre_in_good_shape">you are in good shape</string>
+
+    <!--    Gender Array-->
+    <string-array name="gender_array">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+    <string-array name="height_array">
+        <item>cm</item>
+        <item>ft</item>
+    </string-array>
+    <string-array name="weight_array">
+        <item>kg</item>
+        <item>lb</item>
+    </string-array>
+</resources>

@@ -180,6 +180,7 @@
         app:layout_constraintStart_toEndOf="@+id/weight_editText" />
 
     <ImageView
+
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
@@ -188,6 +189,7 @@
         android:layout_height="67dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:onClick="back"
         app:srcCompat="@drawable/back_arrow_foreground" />
 
 

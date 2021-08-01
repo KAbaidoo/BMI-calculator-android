@@ -2,6 +2,7 @@ package com.example.bmicalculator;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private boolean isMale;
     private double height, weight;
     private Calculator.unit weightUnit, heightUnit;
+    public static String EXTRA_RESULT ="MainActivity.extra.RESULT";
 
 
     @Override
@@ -122,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
     public void calculateBMI(View view) {
+
         if (mHeightEditText.getText().toString().equals("")) {
             displayToast("Enter a valid height!");
         } else {
@@ -133,9 +136,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         } else {
             weight = Double.parseDouble(mWeightEditText.getText().toString());
         }
+
+
         Calculator mCalculator = new Calculator();
 
-        Log.d("BMI Results:", Double.toString(mCalculator.compute(isMale,weight,weightUnit,height,heightUnit)));
+
+        int value =  (int) Math.round(mCalculator.compute(isMale,weight,weightUnit,height,heightUnit));
+        String res = Integer.toString(value);
+//        Log.d("MainActivity: ", res);
+
+        Intent intent = new Intent(this,ResultsActivity.class);
+        intent.putExtra(EXTRA_RESULT, res);
+        startActivity(intent);
     }
 }
 

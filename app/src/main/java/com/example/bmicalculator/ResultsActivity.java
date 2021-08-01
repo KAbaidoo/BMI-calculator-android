@@ -1,19 +1,24 @@
 package com.example.bmicalculator;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ResultsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class ResultsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private TextView mHeightEditText, mWeightEditText,mResultTextView,mCommentTextView;
+    private TextView mHeightEditText, mWeightEditText, mResultTextView, mCommentTextView;
     private boolean isMale;
     private double height, weight;
     private Calculator.unit weightUnit, heightUnit;
@@ -24,11 +29,18 @@ public class ResultsActivity extends AppCompatActivity implements AdapterView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
 
+//        Show results from MainActivity
+        mResultTextView = findViewById(R.id.results_value);
+        Intent intent = getIntent();
+        mResultTextView.setText(intent.getStringExtra(MainActivity.EXTRA_RESULT));
+
+
 //      grab Edit text inputs
         mHeightEditText = findViewById(R.id.height_editText);
         mWeightEditText = findViewById(R.id.weight_editText);
         mResultTextView = findViewById(R.id.results_value);
         mCommentTextView = findViewById(R.id.result_comment);
+
         isMale = true;
         weightUnit = Calculator.unit.KG;
         heightUnit = Calculator.unit.CM;
@@ -56,6 +68,10 @@ public class ResultsActivity extends AppCompatActivity implements AdapterView.On
         }
     }
 
+    //Implement back button
+    public void back(View view) {
+        onBackPressed();
+    }
 
 
     public void createSpinner(Spinner spinner, int string_array) {
@@ -121,8 +137,6 @@ public class ResultsActivity extends AppCompatActivity implements AdapterView.On
     }
 
 
-
-
     public void calculateBMI(View view) {
         if (mHeightEditText.getText().toString().equals("")) {
             displayToast("Enter a valid height!");
@@ -137,7 +151,12 @@ public class ResultsActivity extends AppCompatActivity implements AdapterView.On
         }
         Calculator mCalculator = new Calculator();
 
-        Log.d("BMI Results:", Double.toString(mCalculator.compute(isMale,weight,weightUnit,height,heightUnit)));
+
+        int value =  (int) Math.round(mCalculator.compute(isMale,weight,weightUnit,height,heightUnit));
+        String res = Integer.toString(value);
+        mResultTextView.setText(res);
     }
+
+
 }
 

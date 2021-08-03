@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private boolean isMale;
     private double height, weight;
     private Calculator.unit weightUnit, heightUnit;
-    public static String EXTRA_RESULT ="MainActivity.extra.RESULT";
+    public static String EXTRA_RESULT =".MainActivity.extra.RESULT";
 
 
     @Override
@@ -129,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             displayToast("Enter a valid height!");
         } else {
             height = Double.parseDouble(mHeightEditText.getText().toString());
+
         }
 
         if (mWeightEditText.getText().toString().equals("")) {
@@ -143,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         int value =  (int) Math.round(mCalculator.compute(isMale,weight,weightUnit,height,heightUnit));
         String res = Integer.toString(value);
-//        Log.d("MainActivity: ", res);
+     Log.d("MainActivity: ", res);
 
         Intent intent = new Intent(this,ResultsActivity.class);
         intent.putExtra(EXTRA_RESULT, res);

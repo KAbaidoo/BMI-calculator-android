@@ -13,9 +13,6 @@ public class Calculator {
       return (wtUnit != unit.KG)? (wt *= 2.205): wt;
    }
     private double setHeight(double ht, unit htUnit) {
-        return (htUnit != unit.CM)? (ht /= 30.48): ht;
+        return (htUnit != unit.CM)? (ht *= 30.48): ht;
     }
-    
-
-
 }

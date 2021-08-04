@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Calculator.flag flag = mCalculator.getFlag(value);
         String res = Integer.toString((int) value);
 
-        HashMap<Calculator.flag, String> flagStringHashMap = new HashMap<>();
+        HashMap<Calculator.flag, String> flagStringHashMap = new HashMap<Calculator.flag, String>();
         flagStringHashMap.put(Calculator.flag.HW,"You are in great shape");
         flagStringHashMap.put(Calculator.flag.OW,"You are not in good shape time for some exercise");
         flagStringHashMap.put(Calculator.flag.UW,"Time for some more healthy snacks");

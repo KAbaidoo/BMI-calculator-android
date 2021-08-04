@@ -32,8 +32,11 @@ public class ResultsActivity extends AppCompatActivity implements AdapterView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
 
+
 //        Show results from MainActivity
         mResultTextView = findViewById(R.id.results_value);
+        mCommentTextView = findViewById(R.id.result_comment);
+
         Intent intent = getIntent();
         mResultTextView.setText(intent.getStringExtra(MainActivity.EXTRA_RESULT));
         mCommentTextView.setText(intent.getStringExtra(MainActivity.EXTRA_FLAG));

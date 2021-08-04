@@ -13,12 +13,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashMap;
+
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private TextView mHeightEditText, mWeightEditText;
     private boolean isMale;
     private double height, weight;
     private Calculator.unit weightUnit, heightUnit;
     public static String EXTRA_RESULT =".MainActivity.extra.RESULT";
+    public static String EXTRA_FLAG =".MainActivity.extra.FLAG";
 
 
     @Override
@@ -138,16 +141,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             weight = Double.parseDouble(mWeightEditText.getText().toString());
         }
 
-
         Calculator mCalculator = new Calculator();
+        double value = Math.round(mCalculator.compute(isMale,weight,weightUnit,height,heightUnit));
+        Calculator.flag flag = mCalculator.getFlag(value);
+        String res = Integer.toString((int) value);
 
+        HashMap<Calculator.flag, String> flagStringHashMap = new HashMap<>();
+        flagStringHashMap.put(Calculator.flag.HW,"You are in great shape");
+        flagStringHashMap.put(Calculator.flag.OW,"You are not in good shape time for some exercise");
+        flagStringHashMap.put(Calculator.flag.UW,"Time for some more healthy snacks");
+        flagStringHashMap.put(Calculator.flag.OB,"You're in bad shape time to make lifestyle changes");
 
-        int value =  (int) Math.round(mCalculator.compute(isMale,weight,weightUnit,height,heightUnit));
-        String res = Integer.toString(value);
-     Log.d("MainActivity: ", res);
-
+        String flagString = flagStringHashMap.get(flag);
         Intent intent = new Intent(this,ResultsActivity.class);
         intent.putExtra(EXTRA_RESULT, res);
+        intent.putExtra(EXTRA_FLAG,flagString );
         startActivity(intent);
     }
 }

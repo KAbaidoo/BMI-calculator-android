@@ -16,12 +16,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashMap;
+
 public class ResultsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private TextView mHeightEditText, mWeightEditText, mResultTextView, mCommentTextView;
     private boolean isMale;
     private double height, weight;
     private Calculator.unit weightUnit, heightUnit;
+
 
 
     @Override
@@ -33,6 +36,9 @@ public class ResultsActivity extends AppCompatActivity implements AdapterView.On
         mResultTextView = findViewById(R.id.results_value);
         Intent intent = getIntent();
         mResultTextView.setText(intent.getStringExtra(MainActivity.EXTRA_RESULT));
+        mCommentTextView.setText(intent.getStringExtra(MainActivity.EXTRA_FLAG));
+
+
 
 
 //      grab Edit text inputs
@@ -44,6 +50,7 @@ public class ResultsActivity extends AppCompatActivity implements AdapterView.On
         isMale = true;
         weightUnit = Calculator.unit.KG;
         heightUnit = Calculator.unit.CM;
+
 
 
 //       create gender Spinner

@@ -153,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         flagStringHashMap.put(Calculator.flag.OB,"You're in bad shape time to make lifestyle changes");
 
         String flagString = flagStringHashMap.get(flag);
+
         Intent intent = new Intent(this,ResultsActivity.class);
         intent.putExtra(EXTRA_RESULT, res);
         intent.putExtra(EXTRA_FLAG,flagString );

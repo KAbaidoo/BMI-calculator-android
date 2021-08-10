@@ -10,7 +10,7 @@
     <color name="grey_text">#66232121</color>
     <color name="black_color">#232121</color>
     <color name="mauve_color">#6A8FD8</color>
+    <color name="lightBlue_color">#97D2E4</color>
     <color name="green_color">#BFE29D</color>
-
-
+    <color name="light_grey">#DFE8EBEC</color>
 </resources>

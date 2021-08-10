@@ -3,6 +3,8 @@ package com.example.bmicalculator;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,42 +20,47 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 
-public class ResultsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+import static android.R.layout.simple_spinner_item;
 
-    private TextView mHeightEditText, mWeightEditText, mResultTextView, mCommentTextView;
+public class ResultsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+    private TextView mHeightEditText;
+    private TextView mWeightEditText;
+    private TextView mResultTextView;
     private boolean isMale;
     private double height, weight;
     private Calculator.unit weightUnit, heightUnit;
-
+    private int colorResourceName;
+    private ConstraintLayout mResultsView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_results);
 
+        setTheme(R.style.Theme_BMIcalculator_lightBlue);
+        setContentView(R.layout.activity_results);
 
 //        Show results from MainActivity
         mResultTextView = findViewById(R.id.results_value);
-        mCommentTextView = findViewById(R.id.result_comment);
-
+        TextView mCommentTextView = findViewById(R.id.result_comment);
         Intent intent = getIntent();
         mResultTextView.setText(intent.getStringExtra(MainActivity.EXTRA_RESULT));
         mCommentTextView.setText(intent.getStringExtra(MainActivity.EXTRA_FLAG));
 
-
+//        mResultsView = findViewById(R.id.resultsView);
+//        colorResourceName = getResources().getIdentifier("green_color", "color", getApplicationContext().getPackageName());
+//        mResultsView.setBackgroundColor(ContextCompat.getColor(this, colorResourceName));
 
 
 //      grab Edit text inputs
         mHeightEditText = findViewById(R.id.height_editText);
         mWeightEditText = findViewById(R.id.weight_editText);
         mResultTextView = findViewById(R.id.results_value);
-        mCommentTextView = findViewById(R.id.result_comment);
+
 
         isMale = true;
         weightUnit = Calculator.unit.KG;
         heightUnit = Calculator.unit.CM;
-
 
 
 //       create gender Spinner
@@ -76,6 +83,9 @@ public class ResultsActivity extends AppCompatActivity implements AdapterView.On
             createSpinner(weightSpinner, R.array.weight_array);
             weightSpinner.setOnItemSelectedListener(this);
         }
+
+
+
     }
 
     //Implement back button
@@ -86,7 +96,7 @@ public class ResultsActivity extends AppCompatActivity implements AdapterView.On
 
     public void createSpinner(Spinner spinner, int string_array) {
         // Create ArrayAdapter using the string array and default spinner layout.
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(), string_array, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(), string_array, simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -162,9 +172,14 @@ public class ResultsActivity extends AppCompatActivity implements AdapterView.On
         Calculator mCalculator = new Calculator();
 
 
-        int value =  (int) Math.round(mCalculator.compute(isMale,weight,weightUnit,height,heightUnit));
+        int value = (int) Math.round(mCalculator.compute(isMale, weight, weightUnit, height, heightUnit));
         String res = Integer.toString(value);
         mResultTextView.setText(res);
+//
+//        colorResourceName = getResources().getIdentifier("green_color", "color", getApplicationContext().getPackageName());
+//        mResultsView = findViewById(R.id.resultsView);
+//        mResultsView.setBackgroundColor(ContextCompat.getColor(this, colorResourceName));
+
     }
 
 

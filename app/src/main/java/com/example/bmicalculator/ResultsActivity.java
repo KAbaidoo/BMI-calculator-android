@@ -7,6 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -36,14 +37,15 @@ public class ResultsActivity extends AppCompatActivity implements AdapterView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setTheme(R.style.Theme_BMIcalculator_lightBlue);
+        Intent intent = getIntent();
+        String str = (String) intent.getStringExtra(MainActivity.EXTRA_RESULT);
+        changeTheme(str);
         setContentView(R.layout.activity_results);
 
 //        Show results from MainActivity
         mResultTextView = findViewById(R.id.results_value);
         TextView mCommentTextView = findViewById(R.id.result_comment);
-        Intent intent = getIntent();
+
         mResultTextView.setText(intent.getStringExtra(MainActivity.EXTRA_RESULT));
         mCommentTextView.setText(intent.getStringExtra(MainActivity.EXTRA_FLAG));
 
@@ -84,8 +86,21 @@ public class ResultsActivity extends AppCompatActivity implements AdapterView.On
             weightSpinner.setOnItemSelectedListener(this);
         }
 
+    }
 
-
+    private void changeTheme(String results) {
+        int theme;
+        Double res = Double.parseDouble(results);
+        if (res < 18.5) {
+            theme = R.style.Theme_BMIcalculator_light_blue;
+        } else if (res >= 18.5 && res <= 24.9) {
+            theme = R.style.Theme_BMIcalculator_dark_green;
+        } else if (res >= 25.0 && res <= 29.9) {
+            theme = R.style.Theme_BMIcalculator_dark_yellow;
+        } else {
+            theme = R.style.Theme_BMIcalculator_light_red;
+        }
+        setTheme(theme);
     }
 
     //Implement back button
@@ -174,11 +189,9 @@ public class ResultsActivity extends AppCompatActivity implements AdapterView.On
 
         int value = (int) Math.round(mCalculator.compute(isMale, weight, weightUnit, height, heightUnit));
         String res = Integer.toString(value);
+        changeTheme(res);
         mResultTextView.setText(res);
-//
-//        colorResourceName = getResources().getIdentifier("green_color", "color", getApplicationContext().getPackageName());
-//        mResultsView = findViewById(R.id.resultsView);
-//        mResultsView.setBackgroundColor(ContextCompat.getColor(this, colorResourceName));
+
 
     }
 

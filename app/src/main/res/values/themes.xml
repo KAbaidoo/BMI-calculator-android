@@ -10,21 +10,39 @@
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-<!--        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>-->
+        <!--        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>-->
         <!-- Customize your theme here. -->
     </style>
-    <style name="Theme.BMIcalculator.green" parent="Theme.AppCompat.Light.NoActionBar">
+
+    <style name="Theme.BMIcalculator.dark" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:background">@color/green_color</item>
         <item name="android:textColorSecondary">@color/grey_text</item>
     </style>
-    <style name="Theme.BMIcalculator.lightBlue" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:background">@color/lightBlue_color</item>
+
+    <style name="Theme.BMIcalculator.dark.green" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">@color/green_color</item>
+        <item name="android:textColorSecondary">@color/grey_text</item>
+    </style>
+    <style name="Theme.BMIcalculator.dark.yellow" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">@color/yellow_color</item>
+        <item name="android:textColorSecondary">@color/grey_text</item>
+    </style>
+
+
+    <style name="Theme.BMIcalculator.light" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColor">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
         <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:textAppearance">@color/white</item>
         <item name="android:textColorHint">@color/light_grey</item>
     </style>
 
+    <style name="Theme.BMIcalculator.light.blue">
+        <item name="android:background">@color/lightBlue_color</item>
+
+    </style>
+
+    <style name="Theme.BMIcalculator.light.red" >
+        <item name="android:background">@color/red_color</item>
+    </style>
 
 </resources>

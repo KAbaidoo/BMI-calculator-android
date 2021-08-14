@@ -26,28 +26,31 @@ import static android.R.layout.simple_spinner_item;
 public class ResultsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private TextView mHeightEditText;
     private TextView mWeightEditText;
-    private TextView mResultTextView;
+    private TextView mResultTextView, mCommentTextView;
     private boolean isMale;
     private double height, weight;
     private Calculator.unit weightUnit, heightUnit;
-    private int colorResourceName;
-    private ConstraintLayout mResultsView;
+//    public static String EXTRA_RESULT =".ResultsActivity.extra.RESULT";
+//    public static String EXTRA_FLAG =".ResultsActivity.extra.FLAG";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         Intent intent = getIntent();
-        String str = (String) intent.getStringExtra(MainActivity.EXTRA_RESULT);
+        String str = (String) intent.getStringExtra("extra_results");
         changeTheme(str);
+
         setContentView(R.layout.activity_results);
 
 //        Show results from MainActivity
         mResultTextView = findViewById(R.id.results_value);
-        TextView mCommentTextView = findViewById(R.id.result_comment);
+        mCommentTextView = findViewById(R.id.result_comment);
 
-        mResultTextView.setText(intent.getStringExtra(MainActivity.EXTRA_RESULT));
-        mCommentTextView.setText(intent.getStringExtra(MainActivity.EXTRA_FLAG));
+        mResultTextView.setText(intent.getStringExtra("extra_results"));
+        mCommentTextView.setText(intent.getStringExtra("extra_flag"));
 
 //        mResultsView = findViewById(R.id.resultsView);
 //        colorResourceName = getResources().getIdentifier("green_color", "color", getApplicationContext().getPackageName());
@@ -185,13 +188,22 @@ public class ResultsActivity extends AppCompatActivity implements AdapterView.On
             weight = Double.parseDouble(mWeightEditText.getText().toString());
         }
         Calculator mCalculator = new Calculator();
+        double value = Math.round(mCalculator.compute(isMale, weight, weightUnit, height, heightUnit));
+        Calculator.flag flag = mCalculator.getFlag(value);
+        String res = Integer.toString((int) value);
 
+        HashMap<Calculator.flag, String> flagStringHashMap = new HashMap<Calculator.flag, String>();
+        flagStringHashMap.put(Calculator.flag.HW, "You are in great shape");
+        flagStringHashMap.put(Calculator.flag.OW, "You are not in good shape time for some exercise");
+        flagStringHashMap.put(Calculator.flag.UW, "Time for some more healthy snacks");
+        flagStringHashMap.put(Calculator.flag.OB, "You're in bad shape time to make lifestyle changes");
 
-        int value = (int) Math.round(mCalculator.compute(isMale, weight, weightUnit, height, heightUnit));
-        String res = Integer.toString(value);
-        changeTheme(res);
-        mResultTextView.setText(res);
+        String flagString = flagStringHashMap.get(flag);
 
+        Intent intent = new Intent(this, ResultsActivity.class);
+        intent.putExtra("extra_results", res);
+        intent.putExtra("extra_flag", flagString);
+        startActivity(intent);
 
     }
 

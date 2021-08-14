@@ -20,8 +20,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private boolean isMale;
     private double height, weight;
     private Calculator.unit weightUnit, heightUnit;
-    public static String EXTRA_RESULT =".MainActivity.extra.RESULT";
-    public static String EXTRA_FLAG =".MainActivity.extra.FLAG";
+//    public static String EXTRA_RESULT =".MainActivity.extra.RESULT";
+//    public static String EXTRA_FLAG =".MainActivity.extra.FLAG";
 
 
     @Override
@@ -155,8 +155,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         String flagString = flagStringHashMap.get(flag);
 
         Intent intent = new Intent(this,ResultsActivity.class);
-        intent.putExtra(EXTRA_RESULT, res);
-        intent.putExtra(EXTRA_FLAG,flagString );
+        intent.putExtra("extra_results", res);
+        intent.putExtra("extra_flag",flagString );
         startActivity(intent);
     }
 }

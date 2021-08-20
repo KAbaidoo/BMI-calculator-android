@@ -1,9 +1,12 @@
 package com.example.bmicalculator;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,12 +19,12 @@ import android.widget.Toast;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    private TextView mHeightEditText, mWeightEditText;
+    private TextView mHeightEditText, mWeightEditText,mAgeEditText;
     private boolean isMale;
     private double height, weight;
+    private int age;
     private Calculator.unit weightUnit, heightUnit;
-//    public static String EXTRA_RESULT =".MainActivity.extra.RESULT";
-//    public static String EXTRA_FLAG =".MainActivity.extra.FLAG";
+    int genderSpinnerInt, heightSpinnerInt, weightSpinnerInt;
 
 
     @Override
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 //      grab Edit text inputs
         mHeightEditText = findViewById(R.id.height_editText);
         mWeightEditText = findViewById(R.id.weight_editText);
+        mAgeEditText = findViewById(R.id.editTextAge);
         isMale = true;
         weightUnit = Calculator.unit.KG;
         heightUnit = Calculator.unit.CM;
@@ -39,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 //       create gender Spinner
         Spinner genderSpinner = findViewById(R.id.gender_spinner);
+
+
         if (genderSpinner != null) {
             createSpinner(genderSpinner, R.array.gender_array);
             genderSpinner.setOnItemSelectedListener(this);
@@ -57,13 +63,35 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             createSpinner(weightSpinner, R.array.weight_array);
             weightSpinner.setOnItemSelectedListener(this);
         }
+
+
+        if (savedInstanceState != null) {
+            mAgeEditText.setText(savedInstanceState.getString("age"));
+            mHeightEditText.setText(savedInstanceState.getString("height"));
+            mWeightEditText.setText(savedInstanceState.getString("weight"));
+            genderSpinner.setSelection(savedInstanceState.getInt("genderSpinnerInt"));
+            heightSpinner.setSelection(savedInstanceState.getInt("heightSpinnerInt"));
+            weightSpinner.setSelection(savedInstanceState.getInt("weightSpinnerInt"));
+        }
+
     }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("weight", mWeightEditText.getText().toString());
+        outState.putString("height", mHeightEditText.getText().toString());
+        outState.putString("age", mAgeEditText.getText().toString());
+        outState.putInt("genderSpinnerInt", genderSpinnerInt);
+        outState.putInt("heightSpinnerInt",heightSpinnerInt);
+        outState.putInt("weightSpinnerInt", heightSpinnerInt);
 
+    }
 
     public void createSpinner(Spinner spinner, int string_array) {
         // Create ArrayAdapter using the string array and default spinner layout.
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(), string_array, android.R.layout.simple_spinner_item);
+
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -81,14 +109,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         switch (parent.getId()) {
             case R.id.gender_spinner:
                 isMale = setGender(parent.getItemAtPosition(position).toString());
+                genderSpinnerInt = position;
                 break;
 
             case R.id.height_spinner:
                 heightUnit = setUnit(parent.getItemAtPosition(position).toString());
+                heightSpinnerInt = position;
                 break;
 
             case R.id.weight_spinner:
                 weightUnit = setUnit(parent.getItemAtPosition(position).toString());
+                weightSpinnerInt = position;
                 break;
             default:
                 break;
@@ -115,15 +146,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private boolean setGender(String gender) {
-       return gender.toLowerCase().equals("male");
- }
+        return gender.toLowerCase().equals("male");
+    }
 
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
     }
-
-
 
 
     public void calculateBMI(View view) {
@@ -132,7 +161,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             displayToast("Enter a valid height!");
         } else {
             height = Double.parseDouble(mHeightEditText.getText().toString());
-
         }
 
         if (mWeightEditText.getText().toString().equals("")) {
@@ -141,22 +169,29 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             weight = Double.parseDouble(mWeightEditText.getText().toString());
         }
 
+        if (mAgeEditText.getText().toString().equals("")) {
+            displayToast("Enter your age!");
+        } else {
+            age = Integer.parseInt(mAgeEditText.getText().toString());
+        }
+
         Calculator mCalculator = new Calculator();
-        double value = Math.round(mCalculator.compute(isMale,weight,weightUnit,height,heightUnit));
+        double value = Math.round(mCalculator.compute(isMale, weight, weightUnit, height, heightUnit));
         Calculator.flag flag = mCalculator.getFlag(value);
         String res = Integer.toString((int) value);
 
         HashMap<Calculator.flag, String> flagStringHashMap = new HashMap<Calculator.flag, String>();
-        flagStringHashMap.put(Calculator.flag.HW,"You are in great shape");
-        flagStringHashMap.put(Calculator.flag.OW,"You are not in good shape time for some exercise");
-        flagStringHashMap.put(Calculator.flag.UW,"Time for some more healthy snacks");
-        flagStringHashMap.put(Calculator.flag.OB,"You're in bad shape time to make lifestyle changes");
+        flagStringHashMap.put(Calculator.flag.HW, "You are in great shape");
+        flagStringHashMap.put(Calculator.flag.OW, "You are not in good shape time for some exercise");
+        flagStringHashMap.put(Calculator.flag.UW, "Time for some more healthy snacks");
+        flagStringHashMap.put(Calculator.flag.OB, "You're in bad shape time to make lifestyle changes");
 
         String flagString = flagStringHashMap.get(flag);
 
-        Intent intent = new Intent(this,ResultsActivity.class);
+        Intent intent = new Intent(this, ResultsActivity.class);
         intent.putExtra("extra_results", res);
-        intent.putExtra("extra_flag",flagString );
+        intent.putExtra("extra_flag", flagString);
+
         startActivity(intent);
     }
 }

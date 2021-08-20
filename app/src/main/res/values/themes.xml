@@ -28,20 +28,12 @@
         <item name="android:textColorSecondary">@color/grey_text</item>
     </style>
 
-
-    <style name="Theme.BMIcalculator.light" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textColorSecondary">@color/white</item>
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:textColorHint">@color/light_grey</item>
-    </style>
-
-    <style name="Theme.BMIcalculator.light.blue">
+    <style name="Theme.BMIcalculator.dark.blue">
         <item name="android:background">@color/lightBlue_color</item>
 
     </style>
 
-    <style name="Theme.BMIcalculator.light.red" >
+    <style name="Theme.BMIcalculator.dark.red" >
         <item name="android:background">@color/red_color</item>
     </style>
 

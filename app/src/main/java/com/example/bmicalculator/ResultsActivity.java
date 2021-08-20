@@ -52,11 +52,6 @@ public class ResultsActivity extends AppCompatActivity implements AdapterView.On
         mResultTextView.setText(intent.getStringExtra("extra_results"));
         mCommentTextView.setText(intent.getStringExtra("extra_flag"));
 
-//        mResultsView = findViewById(R.id.resultsView);
-//        colorResourceName = getResources().getIdentifier("green_color", "color", getApplicationContext().getPackageName());
-//        mResultsView.setBackgroundColor(ContextCompat.getColor(this, colorResourceName));
-
-
 //      grab Edit text inputs
         mHeightEditText = findViewById(R.id.height_editText);
         mWeightEditText = findViewById(R.id.weight_editText);
@@ -95,13 +90,13 @@ public class ResultsActivity extends AppCompatActivity implements AdapterView.On
         int theme;
         Double res = Double.parseDouble(results);
         if (res < 18.5) {
-            theme = R.style.Theme_BMIcalculator_light_blue;
+            theme = R.style.Theme_BMIcalculator_dark_blue;
         } else if (res >= 18.5 && res <= 24.9) {
             theme = R.style.Theme_BMIcalculator_dark_green;
         } else if (res >= 25.0 && res <= 29.9) {
             theme = R.style.Theme_BMIcalculator_dark_yellow;
         } else {
-            theme = R.style.Theme_BMIcalculator_light_red;
+            theme = R.style.Theme_BMIcalculator_dark_red;
         }
         setTheme(theme);
     }
